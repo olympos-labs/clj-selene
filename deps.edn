@@ -1,0 +1,20 @@
+{:paths ["src"]
+ :deps {com.widdindustries/cljc.java-time {:mvn/version "0.1.21"}}
+ :aliases {:deploy {:extra-deps {slipset/deps-deploy {:mvn/version "0.2.2"}}
+                    :exec-fn deps-deploy.deps-deploy/deploy
+                    :exec-args {:installer :remote
+                                :sign-releases? true
+                                :artifact "deps-deploy.jar"}}
+
+           :test {:extra-paths ["test"]
+                  :extra-deps {org.shredzone.commons/commons-suncalc {:mvn/version "3.11"}
+                               io.github.cognitect-labs/test-runner {:git/tag "v0.5.1" :git/sha "dfb30dd"}}
+                  :main-opts ["-m" "cognitect.test-runner"]
+                  :exec-fn cognitect.test-runner.api/test}
+
+           :cljs-test {:extra-paths ["test"]
+                       :extra-deps {org.clojure/clojurescript {:mvn/version "1.11.54"}
+                                    olical/cljs-test-runner {:mvn/version "3.8.1"}
+                                    henryw374/js-joda {:mvn/version "3.2.0-0"}
+                                    io.github.cljsjs/js-joda-timezone {:mvn/version "2.17.2-1"}}
+                       :main-opts ["-m" "cljs-test-runner.main"]}}}
