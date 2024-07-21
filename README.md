@@ -1,7 +1,8 @@
 # Selene
 
 A Clojure/ClojureScript library to compute the lunar calendar and Moon phases,
-accurate up to a couple of minutes (on average ~2 minutes off).
+accurate up to a couple of minutes (on average ~2 minutes off). See it in action
+in the [Moon calendar example](https://hypirion.github.io/selene-calendar-example/).
 
 See [Moon Phase Approximation
 Benchmark](https://github.com/hypirion/moon-phase-approximation-benchmark) for
@@ -60,7 +61,7 @@ know the start and end of the day to correctly know if the phase change happens
 inside that interval, which requires time zones.
 
 For a complete example, have a look at [moon phase calendar example
-app](https://github.com/hypirion/selene-calendar-example). Its source is over at
+app](https://hypirion.github.io/selene-calendar-example/). Its source is over at
 https://github.com/hypirion/selene-calendar-example.
 
 See the [API reference](http://olympos-labs.github.io/clj-selene/) for the full
