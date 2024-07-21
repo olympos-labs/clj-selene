@@ -12,14 +12,10 @@
 
 (ns io.olympos.selene.sun
   (:require [io.olympos.selene.julian :as julian]
-            [io.olympos.selene.vector :as vector]
-            [io.olympos.selene.math-util :refer [tau frac sin cos]]))
+            [io.olympos.selene.math-util :refer [tau frac sin]]))
 
-(def ^:const sun-distance 149598000.0)
-(def ^:const sun-mean-radius 695700.0)
-
-(defn position-equatorial
-  "Returns the equatorial position of the sun at the Julian date in
+(defn position-equatorial-phi
+  "Returns the equatorial position of the sun (phi) at the Julian date in
   polar coordinates. Convert to vector form if needed manually."
   [jd]
   (let [T (julian/century jd)
@@ -28,8 +24,6 @@
                           (/ (+ (* 6893.0 (sin M))
                                 (* 72.0 (sin (* 2.0 M)))
                                 (* 6191.2 T))
-                             1296000.0))))
+                             1296000.0))))]
 
-        d (* sun-distance (- 1 (* 0.016718 (cos (julian/true-anomaly jd)))))]
-
-    (vector/->Polar L 0.0 d)))
+    L))

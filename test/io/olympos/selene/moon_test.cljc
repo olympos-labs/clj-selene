@@ -30,8 +30,8 @@
 #?(:clj
    (defn compare-phis [dt]
      (let [expected (Moon/positionEquatorial (JulianDate. dt))
-           actual (moon/position-equatorial (julian/from-datetime dt))]
-       (is (approx? (.getPhi expected) (.-phi actual)))))
+           actual-phi (moon/position-equatorial-phi (julian/from-datetime dt))]
+       (is (approx? (.getPhi expected) actual-phi))))
    :default
    (defn compare-phis [dt]
      ;; no reference library in other languages, so noop here

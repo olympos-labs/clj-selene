@@ -129,9 +129,14 @@ Please read <CONTRIBUTING.md> for the full gist, but TL;DR: This library is
 stable and I don't want feature requests or PRs related to that. Feel free to
 fork the library though!
 
-If you encounter a bug, add a test case and verify that it works by running `clj
- -Mtest && clj -Mcljs-test` on the command line. This first tests Clojure and
- then ClojureScript version.
+If you encounter a bug, add a test case and verify that it works/fails by
+running
+
+```shell
+$ clj -Mtest && clj -Mcljs-test
+```
+
+on the command line. This first tests Clojure and then ClojureScript version.
 
 ## License
 

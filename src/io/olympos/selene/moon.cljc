@@ -17,12 +17,11 @@
               [cljc.java-time.temporal.chrono-unit :as chrono-unit]
               [io.olympos.selene.julian :as julian]
               [io.olympos.selene.sun :as sun]
-              [io.olympos.selene.vector :as vector]
               [io.olympos.selene.pegasus :as pegasus]
-              [io.olympos.selene.math-util :refer [pi tau frac sin cos arcs]]))
+              [io.olympos.selene.math-util :refer [pi tau frac sin]]))
 
 
-(defn position-equatorial [jd]
+(defn position-equatorial-phi [jd]
   (let [T (julian/century jd)
         L0        (frac (+ 0.606433 (* 1336.855225 T)))
         l  (* tau (frac (+ 0.374897 (* 1325.552410 T))))
@@ -49,30 +48,8 @@
               (+ (* 148.0 (sin (- l ls))))
               (- (* 55.0  (sin (- F2 D2)))))
 
-        S (+ F (/ (+ dL (* 412.0 (sin F2) (* 541.0 (sin ls))))
-                  arcs))
-
-        h (- F D2)
-
-        N (+ (- (* 526.0 (sin h)))
-             (+ (* 44.0 (sin (+ l h))))
-             (- (* 31.0 (sin (+ (- l) h))))
-             (- (* 23.0 (sin (+ ls h))))
-             (+ (* 11.0 (sin (+ (- ls) h))))
-             (- (* 25.0 (sin (+ (- l2) F))))
-             (+ (* 21.0 (sin (+ (- l) F)))))
-
-        l-moon (* tau (frac (+ L0 (/ dL 1296000.0))))
-
-        b-moon (/ (* 18520.0 (sin S) N) arcs)
-
-        dt (- 385000.5584
-              (* 20905.3550 (cos l))
-              (* 3699.1109 (cos (- D2 l)))
-              (* 2955.9676 (cos D2))
-              (* 569.9251 (cos l2)))]
-
-    (vector/->Polar l-moon b-moon dt)))
+        l-moon (* tau (frac (+ L0 (/ dL 1296000.0))))]
+    l-moon))
 
 (def phases
   "A list of all the phases used by this library, in their order in the
@@ -151,18 +128,18 @@
   ;; shift from time zone to time zone... I think. Which is a bit weird tbh, I
   ;; may have to dig a little deeper here.
   (fn [t]
-    (let [sun (sun/position-equatorial (julian/at-century jd (- t sun-light-time-tau)))
-          moon (position-equatorial (julian/at-century jd t))]
-      (loop [diff (- (.-phi moon) (.-phi sun) target-phase)]
+    (let [sun-phi (sun/position-equatorial-phi (julian/at-century jd (- t sun-light-time-tau)))
+          moon-phi (position-equatorial-phi (julian/at-century jd t))]
+      (loop [diff (- moon-phi sun-phi target-phase)]
         (if (<= 0.0 diff)
           (- (rem (+ diff pi) tau) pi)
           (recur (+ diff tau)))))))
 
 (defn- phase-angle* [jd]
-  (let [sun (sun/position-equatorial (julian/at-century jd (- (julian/century jd)
-                                                              sun-light-time-tau)))
-        moon (position-equatorial jd)]
-    (mod (- (.-phi moon) (.-phi sun)) tau)))
+  (let [sun-phi (sun/position-equatorial-phi (julian/at-century jd (- (julian/century jd)
+                                                                      sun-light-time-tau)))
+        moon-phi (position-equatorial-phi jd)]
+    (mod (- moon-phi sun-phi) tau)))
 
 (defn phase-angle
   "Returns the phase angle of the given datetime, in radians."
