@@ -138,6 +138,12 @@ $ clj -Mtest && clj -Mcljs-test
 
 on the command line. This first tests Clojure and then ClojureScript version.
 
+To build a version, do
+
+```shell
+$ clj -T:build clean && clj -T:build jar && env CLOJARS_USERNAME=xxx CLOJARS_PASSWORD=yyy clj -X:deploy
+```
+
 ## License
 
 Copyright © 2018 Richard "Shred" Körber, 2024 Jean Niklas L'orange
