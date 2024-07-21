@@ -33,4 +33,8 @@
       <url>https://repo.clojars.org/</url>
     </repository>
   </repositories>
+  <scm>
+    <url>https://github.com/olympos-labs/clj-selene</url>
+    <tag>v1.0.1-SNAPSHOT</tag>
+  </scm>
 </project>
