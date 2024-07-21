@@ -1,11 +1,11 @@
 # Selene
 
-A Clojure/ClojureScript library to compute the lunar calendar and moon phases,
+A Clojure/ClojureScript library to compute the lunar calendar and Moon phases,
 accurate up to a couple of minutes (on average ~2 minutes off).
 
-See [https://github.com/hypirion/moon-phase-approximation-benchmark](Moon Phase
-Approximation Benchmark) for exact details on how this fare compared to other
-moon phase algorithms.
+See [Moon Phase Approximation
+Benchmark](https://github.com/hypirion/moon-phase-approximation-benchmark) for
+exact details on how this fare compared to other Moon phase algorithms.
 
 ## Quickstart
 
@@ -25,8 +25,8 @@ io.github.cljsjs/js-joda-timezone {:mvn/version "2.17.2-1"}
 ```
 
 The namespace `io.olympos.selene.moon` contains all the functions. If you're
-e.g. making a calendar app and want to know whether a day contains a moon phase,
-this is one way to get all dates with a moon phase change:
+e.g. making a calendar app and want to know whether a day contains a Moon phase,
+this is one way to get all dates with a Moon phase change:
 
 ```clj
 (require '[io.olympos.selene.moon :as moon]
@@ -68,36 +68,36 @@ list of functions, as well as tips on how to use it in your application.
 
 ## Rationale
 
-Finding a library to compute the moon phases in JavaScript (or ClojureScript)
+Finding a library to compute the Moon phases in JavaScript (or ClojureScript)
 should be simple, right? Some Googling led me to
 [lunarphase-js](https://www.npmjs.com/package/lunarphase-js), but this isn't
-exact at all according to e.g. [Time and Date's
-calendar](https://www.timeanddate.com/calendar/).
+exact at all. It is on average 8 hours off, but it can be as inaccurate as 19.5
+hours. That causes it to report the wrong date for about 1/3 of all Moon phases.
 
 This happens for two reasons: First, most approximations use the synadic month
 and just compute the distance into a lunar month by dividing by it. However, the
 lunar month changes in length: While the average is about 29.53 days, it varies
 from 29.26 to 29.80 days -- about 13 hours difference. That matters, and can
-put the moon phase on the wrong date.
+put the Moon phase on the wrong date.
 
 The second is purely technical: JavaScript's native date type doesn't contain
 time zones, and the libraries I've seen usually use that one. This can be iffy
 if you're dealing with actual dates (not datetimes): Not too long ago, we had a
-full moon happening at 23:46 UTC, which in my time zone was 00:46 the next day.
-If I didn't take the time zone into consideration, I'd attach the full moon to
+full Moon happening at 23:46 UTC, which in my time zone was 00:46 the next day.
+If I didn't take the time zone into consideration, I'd attach the full Moon to
 the wrong date.
 
 Now, you could argue that time zones isn't technically part of "the compute the
-lunar calendar or moon phases", as long as you handle them in some layer above.
+lunar calendar or Moon phases", as long as you handle them in some layer above.
 However, I guarantee you incorrect use of this library would happen if it didn't
 enforce time zones on you.
 
-That's why this library was made: To compute moon phases accurate up to a couple
+That's why this library was made: To compute Moon phases accurate up to a couple
 of minutes off, as well as taking time zones into account.
 
 The implementation is effectively a port of a subset of
 [commons-suncalc](https://github.com/shred/commons-suncalc) and some additions
-for common operations related to moon phases.
+for common operations related to Moon phases.
 
 ## Current Issues
 
